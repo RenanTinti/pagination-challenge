@@ -1,0 +1,48 @@
+1. The total pages and current pages must be positive
+2. The results must be tested
+3. Exceptions must be thrown to the user, and returning to last interactive point
+4. The code must work regardless of total pages number
+5. The final result must be printed (try to print as string instead of list)
+
+
+* Some errors that can appear:
+
+- Negative number of pages
+- Current page as negative number
+- Current page out of boundaries of total pages
+- Negative number of boundaries
+- Negative number of pages around
+- Deque index out of range in _remove_duplicates (need to find a way to solve this)
+
+* SOLVE: last number of middle pages being passed to the last numbers set
+
+
+* Example:
+
+total_pages = 20
+current_page = 10
+boundaries = 2
+around = 2
+
+1 2 ... 8 9 10 11 12 ... 19 20
+
+
+* Some tests to run:
+
+1. Few pages
+2. Many pages
+3. Lots of pages
+4. No boundaries
+5. No around
+6. All zero (probably Exception)
+7. All one
+8. All five
+9. All ten
+10. Only three dots
+11. Dots in the beggining
+12. Dots in the end
+13. Dots exactly in middle
+14. Current page value bigger than total pages (Exception)
+15. Negative inputs (Exception)
+16. Remove duplicated pages
+17. Remove pages out of range (boundaries and around)

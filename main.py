@@ -23,7 +23,7 @@ def run():
 
     try:
         paginator = Paginator(total_pages, current_page, boundaries, around)
-        print(paginator._paginate())
+        print(paginator.paginate())
 
         print("\n")
         run()

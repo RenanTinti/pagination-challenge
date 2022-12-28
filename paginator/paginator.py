@@ -1,8 +1,10 @@
 
-from paginator.exceptions import PaginatorErrorHelper 
+
 from collections import deque
 from typing import Deque
 from itertools import islice
+
+from paginator.exceptions import PaginatorErrorHelper
 
 class Paginator:
     PAGE_ONE = 1
@@ -56,8 +58,6 @@ class Paginator:
 
         for i, value in enumerate(pages):
             try:
-                # print("i: {}\npages: {}".format(i, pages[i]))
-                print("value: {}".format(value))
                 if value + 1 != pages[i + 1]:
                     indexes_list_to_be_filled.append(i + 1)
             except IndexError:
@@ -89,6 +89,7 @@ class Paginator:
         return first_pages
 
     def _get_middle_pages(self) -> Deque:
+        first_pages = self._get_first_pages()
         middle_pages = deque([self.current_page])
         for i in range(1, self.around + 1):
             middle_pages.appendleft(self.current_page - i)
@@ -96,6 +97,11 @@ class Paginator:
 
         # The call of _get_valid_pagination method here in the middle pages avoid duplicate numbers
         middle_pages = self._get_valid_pagination(middle_pages)
+
+        # Check if the middle_pages deque is a subset of first_pages deque. If it is, basically there will be no middle pages
+        if all(x in first_pages for x in middle_pages):
+            middle_pages = first_pages
+
         return middle_pages
 
     def _get_final_pages(self) -> Deque:
@@ -107,29 +113,29 @@ class Paginator:
     
 
 
-    def _paginate(self):
+    def paginate(self):
         first = self._get_first_pages()
         middle = self._get_middle_pages()
         last = self._get_final_pages()
 
-        res = first
-        self._remove_duplicates(res, middle)
+        result = first
+        self._remove_duplicates(result, middle)
         
-        res += middle
-        self._remove_duplicates(res, last)
+        result += middle
+        self._remove_duplicates(result, last)
 
-        res += last
+        result += last
 
-        res = self._get_valid_pagination(res)
+        result = self._get_valid_pagination(result)
 
-        pages_with_dots = self._insert_dots(res)
+        pages_with_dots = self._insert_dots(result)
 
         for i in pages_with_dots:
-            res.insert(i, self.DOTS)
+            result.insert(i, self.DOTS)
 
-        res = " ".join([str(x) for x in res])
+        result = " ".join([str(x) for x in result])
 
-        return res
+        return result
 
 
 
